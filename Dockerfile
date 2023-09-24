@@ -1,6 +1,8 @@
-FROM node:20.7.0-alpine3.17
+FROM oven/bun:1.0.3
 WORKDIR /app
 
 ARG USER=1000
-RUN addgroup -S $USER && adduser -S $USER -G $USER
+COPY user_setup.sh .
+RUN chmod +x user_setup.sh
+RUN ./user_setup.sh
 USER $USER
