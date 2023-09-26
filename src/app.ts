@@ -1,10 +1,15 @@
-import type { FastifyInstance, FastifyServerOptions } from 'fastify'
-import Fastify from 'fastify'
+import type { FastifyInstance, FastifyRequest, FastifyServerOptions } from 'fastify'
+import type { SocketStream } from '@fastify/websocket'
+import fastify from 'fastify'
+import fastifyWebsocket from '@fastify/websocket'
 
-export function build(options: FastifyServerOptions = {}): FastifyInstance {
-  const app = Fastify(options)
-  app.get('/', (_request, _response) => {
-    return { hello: 'world' }
+export async function build(options: FastifyServerOptions = {}): Promise<FastifyInstance> {
+  const app = fastify(options)
+  await app.register(fastifyWebsocket)
+  app.get('/', { websocket: true }, async (connection: SocketStream, request: FastifyRequest) => {
+    connection.socket.on('message', message => {
+      connection.socket.send('Connected')
+    })
   })
-  return app
+  return await Promise.resolve(app)
 }
