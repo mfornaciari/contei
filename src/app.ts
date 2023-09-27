@@ -6,9 +6,14 @@ import fastifyWebsocket from '@fastify/websocket'
 export async function build(options: FastifyServerOptions = {}): Promise<FastifyInstance> {
   const app = fastify(options)
   await app.register(fastifyWebsocket)
-  app.get('/', { websocket: true }, async (connection: SocketStream, request: FastifyRequest) => {
-    connection.socket.on('message', message => {
-      connection.socket.send('Connected')
+  app.get('/', { websocket: true }, (connection: SocketStream, _request: FastifyRequest) => {
+    const socket = connection.socket
+    socket.on('message', message => {
+      for (const client of app.websocketServer.clients) {
+        if (client !== socket && client.readyState === 1) {
+          client.send(message.toString())
+        }
+      }
     })
   })
   return await Promise.resolve(app)

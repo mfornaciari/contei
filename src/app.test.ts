@@ -10,21 +10,33 @@ describe('App', () => {
     await app.listen({ host: '0.0.0.0', port: 3000 })
   })
 
-  it('returns Connected message', async () => {
-    const client = new WebSocket(`ws://0.0.0.0:3000`)
-    let resolveHandler: (value: unknown) => void
-    const message = new Promise(resolve => {
-      resolveHandler = resolve
+  it('Sends message to connected clients', async () => {
+    const client1 = new WebSocket('ws://0.0.0.0:3000')
+    client1.addEventListener('open', () => {
+      client1.send('Test')
     })
-    client.addEventListener('message', event => {
-      resolveHandler(event.data)
-      client.close()
+    const client2 = new WebSocket('ws://0.0.0.0:3000')
+    const client3 = new WebSocket('ws://0.0.0.0:3000')
+    let resolveHandler2: (value: unknown) => void
+    let resolveHandler3: (value: unknown) => void
+    const message2 = new Promise(resolve => {
+      resolveHandler2 = resolve
     })
-    client.addEventListener('open', () => {
-      client.send('Test')
+    const message3 = new Promise(resolve => {
+      resolveHandler3 = resolve
+    })
+    client2.addEventListener('message', event => {
+      resolveHandler2(event.data)
+      client1.close()
+      client2.close()
+    })
+    client3.addEventListener('message', event => {
+      resolveHandler3(event.data)
+      client3.close()
     })
 
-    await expect(message).resolves.toBe('Connected')
+    await expect(message2).resolves.toBe('Test')
+    await expect(message3).resolves.toBe('Test')
   })
 
   afterAll(async () => {
