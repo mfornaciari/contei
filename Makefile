@@ -1,8 +1,14 @@
-shell:
-	nix develop
+back.shell:
+	cd back ;\
+	nix develop ;\
+	cd ..
 
 back.dev:
-	nix develop -c bash -c 'cd back && npm run dev'
+	cd back ;\
+	nix develop -c bash -c 'npm run dev' ;\
+	cd ..
 
 back.test:
-	nix develop -c bash -c 'cd back && npm run test'
+	cd back ;\
+	nix develop -c bash -c 'npm run test' ;\
+	cd ..
