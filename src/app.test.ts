@@ -1,3 +1,4 @@
+import type { Data } from 'ws'
 import type { FastifyInstance } from 'fastify'
 import WebSocket from 'ws'
 import { build } from './app'
@@ -12,13 +13,10 @@ describe('App', () => {
 
   it('Sends message to connected clients', async () => {
     const client1 = new WebSocket('ws://0.0.0.0:3000')
-    client1.addEventListener('open', () => {
-      client1.send('Test')
-    })
     const client2 = new WebSocket('ws://0.0.0.0:3000')
     const client3 = new WebSocket('ws://0.0.0.0:3000')
-    let resolveHandler2: (value: unknown) => void
-    let resolveHandler3: (value: unknown) => void
+    let resolveHandler2: (value: Data) => void
+    let resolveHandler3: (value: Data) => void
     const message2 = new Promise(resolve => {
       resolveHandler2 = resolve
     })
@@ -33,6 +31,9 @@ describe('App', () => {
     client3.addEventListener('message', event => {
       resolveHandler3(event.data)
       client3.close()
+    })
+    client3.addEventListener('open', () => {
+      client1.send('Test')
     })
 
     await expect(message2).resolves.toBe('Test')
