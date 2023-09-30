@@ -1,2 +1,2 @@
-bash:
-	docker compose run --service-ports app bash
+nix-shell:
+	nix-shell -p nodejs_20

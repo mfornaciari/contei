@@ -1,8 +1,0 @@
-services:
-  app:
-    image: node:20.7.0
-    ports:
-      - 3000:3000
-    volumes:
-      - .:/app
-    working_dir: /app
