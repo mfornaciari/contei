@@ -10,9 +10,7 @@ export async function build(options: FastifyServerOptions = {}): Promise<Fastify
     const socket = connection.socket
     socket.on('message', message => {
       for (const client of app.websocketServer.clients) {
-        if (client !== socket && client.readyState === 1) {
-          client.send(message.toString())
-        }
+        if (client.readyState === 1) client.send(message.toString())
       }
     })
   })

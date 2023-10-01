@@ -1,7 +1,7 @@
 {
   "name": "contei-back",
   "scripts": {
-    "dev": "ts-node-dev src/server.ts",
+    "dev": "ts-node-dev src/index.ts",
     "test": "jest"
   },
   "dependencies": {
