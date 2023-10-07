@@ -6,13 +6,11 @@ type SerializedMatch = {
   openCard: Card
   otherPlayers: OtherPlayer[]
 }
-
 type CurrentPlayer = {
   cards: Card[]
   matchId: number
   currentPlayer: boolean
 }
-
 type OtherPlayer = {
   currentPlayer: boolean
   matchId: number

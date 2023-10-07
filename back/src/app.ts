@@ -7,12 +7,10 @@ import { buildPlayer } from './buildPlayer'
 import { cards } from './cards'
 import { serializeMatch } from './serializeMatch'
 
-declare module 'fastify' {
-  interface Session {
-    playerId?: number
-  }
+export type Match = {
+  players: Player[]
+  openCard: Card
 }
-
 export type Player = {
   id: string
   matchId: number
@@ -22,16 +20,11 @@ export type Player = {
   isAlive: boolean
 }
 
-export type Match = {
-  players: Player[]
-  openCard: Card
-}
-
 const shuffledCards = cards.sort(() => Math.random() - 0.5)
 const openCard = shuffledCards.splice(0, 1)[0]
-let match: Match = {
+const match: Match = {
   players: [],
-  openCard: openCard,
+  openCard,
 }
 let matchId = 1
 
@@ -40,14 +33,17 @@ export async function build(options: FastifyServerOptions = {}): Promise<Fastify
   await app.register(fastifyWebsocket)
 
   app.get('/', { websocket: true }, (connection, request) => {
+    const socket = connection.socket
     const userId = request.headers['sec-websocket-protocol']
-    if (userId == null) return
+    if (userId == null) {
+      socket.terminate()
+      return
+    }
 
     for (const player of match.players) {
       if (player.id === userId) player.socket.terminate()
     }
 
-    const socket = connection.socket
     const existingPlayer = match.players.find(player => player.id === userId)
     if (existingPlayer == null) {
       addPlayer(socket, userId)
@@ -55,17 +51,13 @@ export async function build(options: FastifyServerOptions = {}): Promise<Fastify
       existingPlayer.socket = socket
     }
 
-    for (const player of match.players) {
-      const playerSocket = player.socket
-      const payload = serializeMatch(player, match)
-      playerSocket.send(JSON.stringify(payload))
-    }
+    for (const player of match.players) sendMatch(player)
   })
 
   return await Promise.resolve(app)
 }
 
-function addPlayer(socket: WebSocket, userId: string) {
+function addPlayer(socket: WebSocket, userId: string): void {
   const currentPlayer = match.players.length === 0
   const newPlayer = buildPlayer({
     cards: shuffledCards,
@@ -77,15 +69,26 @@ function addPlayer(socket: WebSocket, userId: string) {
   matchId += 1
   match.players.push(newPlayer)
 
+  startHeartbeat(newPlayer)
   socket.on('pong', () => {
     newPlayer.isAlive = true
   })
+}
+
+function sendMatch(player: Player): void {
+  const payload = serializeMatch(player, match)
+  player.socket.send(JSON.stringify(payload))
+}
+
+function startHeartbeat(player: Player): void {
+  const socket = player.socket
   setInterval(() => {
-    if (!newPlayer.isAlive) {
-      match.players = match.players.filter(player => player.id !== newPlayer.id)
-      return socket.terminate()
+    if (!player.isAlive) {
+      match.players = match.players.filter(matchPlayer => matchPlayer.id !== player.id)
+      socket.terminate()
+      return
     }
-    newPlayer.isAlive = false
+    player.isAlive = false
     socket.ping()
   }, 30000)
 }

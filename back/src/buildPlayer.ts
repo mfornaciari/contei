@@ -1,5 +1,6 @@
 import type { WebSocket } from 'ws'
 import type { Card } from './cards'
+import type { Player } from './app'
 
 type BuildPlayerArgs = {
   cards: Card[]
@@ -9,7 +10,7 @@ type BuildPlayerArgs = {
   userId: string
 }
 
-export function buildPlayer({ cards, currentPlayer, matchId, socket, userId }: BuildPlayerArgs) {
+export function buildPlayer({ cards, currentPlayer, matchId, socket, userId }: BuildPlayerArgs): Player {
   const playerCards = cards.splice(0, 7)
   return {
     id: userId,
