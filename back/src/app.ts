@@ -35,6 +35,7 @@ export async function build(options: FastifyServerOptions = {}): Promise<Fastify
   app.get('/', { websocket: true }, (connection, request) => {
     const socket = connection.socket
     const userId = request.headers['sec-websocket-protocol']
+
     if (userId == null) {
       socket.terminate()
       return
@@ -75,11 +76,6 @@ function addPlayer(socket: WebSocket, userId: string): void {
   })
 }
 
-function sendMatch(player: Player): void {
-  const payload = serializeMatch(player, match)
-  player.socket.send(JSON.stringify(payload))
-}
-
 function startHeartbeat(player: Player): void {
   const socket = player.socket
   setInterval(() => {
@@ -91,4 +87,9 @@ function startHeartbeat(player: Player): void {
     player.isAlive = false
     socket.ping()
   }, 30000)
+}
+
+function sendMatch(player: Player): void {
+  const payload = serializeMatch(player, match)
+  player.socket.send(JSON.stringify(payload))
 }

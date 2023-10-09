@@ -1,9 +1,8 @@
-import type { Data } from 'ws'
 import type { FastifyInstance } from 'fastify'
-import WebSocket from 'ws'
+import { WebSocket } from 'ws'
 import { build } from './app'
 
-describe('App', () => {
+describe('build', () => {
   let app: FastifyInstance
 
   beforeAll(async () => {
@@ -11,44 +10,53 @@ describe('App', () => {
     await app.listen({ host: '0.0.0.0', port: 3001 })
   })
 
-  it('Sends message to connected clients', async () => {
-    const client1 = new WebSocket('ws://0.0.0.0:3001')
-    const client2 = new WebSocket('ws://0.0.0.0:3001')
-    const client3 = new WebSocket('ws://0.0.0.0:3001')
-    let resolveHandler1: (value: Data) => void
-    let resolveHandler2: (value: Data) => void
-    let resolveHandler3: (value: Data) => void
-    const message1 = new Promise(resolve => {
-      resolveHandler1 = resolve
-    })
-    const message2 = new Promise(resolve => {
-      resolveHandler2 = resolve
-    })
-    const message3 = new Promise(resolve => {
-      resolveHandler3 = resolve
-    })
-    client1.addEventListener('message', event => {
-      resolveHandler1(event.data)
-      client1.close()
-    })
-    client2.addEventListener('message', event => {
-      resolveHandler2(event.data)
-      client2.close()
-    })
-    client3.addEventListener('message', event => {
-      resolveHandler3(event.data)
-      client3.close()
-    })
-    client3.addEventListener('open', () => {
-      client1.send('Test')
-    })
-
-    await expect(message1).resolves.toBe('Test')
-    await expect(message2).resolves.toBe('Test')
-    await expect(message3).resolves.toBe('Test')
-  })
-
   afterAll(async () => {
     await app.close()
+  })
+
+  beforeEach(() => {
+    jest.useFakeTimers()
+  })
+
+  afterEach(() => {
+    jest.useRealTimers()
+  })
+
+  it('Sends message to clients upon connection', async () => {
+    const user1Id = crypto.randomUUID()
+    const user2Id = crypto.randomUUID()
+    const user1Client = new WebSocket('ws://0.0.0.0:3001', user1Id)
+    const user2Client = new WebSocket('ws://0.0.0.0:3001', user2Id)
+
+    let resolveHandler1: (value: string) => void
+    const message1 = new Promise<string>(resolve => {
+      resolveHandler1 = resolve
+    })
+    let resolveHandler2: (value: string) => void
+    const message2 = new Promise<string>(resolve => {
+      resolveHandler2 = resolve
+    })
+    user1Client.on('message', event => {
+      resolveHandler1(event.toString())
+      user1Client.terminate()
+    })
+    user2Client.on('message', event => {
+      resolveHandler2(event.toString())
+      user2Client.terminate()
+    })
+
+    const user1Match = await message1
+    const user1ParsedMatch = JSON.parse(user1Match)
+    const user2Match = await message2
+    const user2ParsedMatch = JSON.parse(user2Match)
+
+    expect(user1ParsedMatch.player.matchId).toBe(1)
+    expect(user1ParsedMatch.player.cards.length).toBe(7)
+    expect(user1ParsedMatch.player.currentPlayer).toBe(true)
+    expect(user2ParsedMatch.player.matchId).toBe(2)
+    expect(user2ParsedMatch.player.cards.length).toBe(7)
+    expect(user2ParsedMatch.player.currentPlayer).toBe(false)
+    expect(user2ParsedMatch.otherPlayers.length).toBe(1)
+    expect(user2ParsedMatch.otherPlayers[0].matchId).toBe(1)
   })
 })
