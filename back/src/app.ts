@@ -43,26 +43,25 @@ export async function build(options: FastifyServerOptions = {}): Promise<Fastify
   });
 
   app.get("/", { websocket: true }, (connection, request) => {
-    const socket = connection.socket;
     const userId = request.headers["sec-websocket-protocol"];
-
     if (userId == null) return;
 
-    for (const player of match.players) {
-      if (player.id === userId) player.socket.terminate();
-    }
-
-    const existingPlayer = match.players.find(player => player.id === userId);
-    if (existingPlayer == null) {
-      addPlayer(socket, userId);
-    } else {
-      existingPlayer.socket = socket;
-    }
-
+    handleConnection(userId, connection.socket);
     for (const player of match.players) sendMatch(player);
   });
 
   return await Promise.resolve(app);
+}
+
+function handleConnection(userId: string, socket: WebSocket): void {
+  const existingPlayer = match.players.find(player => player.id === userId);
+  if (existingPlayer == null) {
+    addPlayer(socket, userId);
+    return;
+  }
+
+  existingPlayer.socket.close();
+  existingPlayer.socket = socket;
 }
 
 function addPlayer(socket: WebSocket, userId: string): void {
@@ -76,15 +75,14 @@ function addPlayer(socket: WebSocket, userId: string): void {
   });
   matchId += 1;
   match.players.push(newPlayer);
-
   startHeartbeat(newPlayer);
-  socket.on("pong", () => {
-    newPlayer.isAlive = true;
-  });
 }
 
 function startHeartbeat(player: Player): void {
   const socket = player.socket;
+  socket.on("pong", () => {
+    player.isAlive = true;
+  });
   setInterval(() => {
     if (!player.isAlive) {
       match.players = match.players.filter(matchPlayer => matchPlayer.id !== player.id);
