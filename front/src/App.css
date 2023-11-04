@@ -137,8 +137,7 @@ body {
   vertical-align: baseline;
   line-height: 1;
   height: 100dvh;
-  background-color: #1c1b1b;
-  color: #d4d2d2;
+  color: #1c1b1b;
 }
 
 main {
@@ -149,24 +148,21 @@ main {
   height: 100%;
 }
 
-ol {
-  list-style: none;
-  display: flex;
-  flex-direction: row;
-  margin: 0;
-}
-
 #root {
   height: 100%;
 }
 
-.card {
+.other-players {
+  list-style: none;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  list-style-type: none;
-  border: 1px solid #d4d2d2;
-  border-radius: 4px;
-  height: 9rem;
-  width: 6.5rem;
+  flex-direction: row;
+}
+
+.player-cards {
+  list-style: none;
+  display: grid;
+}
+
+.player-card-li {
+  grid-row: 1;
 }
