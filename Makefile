@@ -22,3 +22,8 @@ front.dev:
 	cd front ;\
 	nix develop -c bash -c 'npm run dev' ;\
 	cd ..
+
+front.test:
+	cd front ;\
+	nix develop -c bash -c 'npm run test' ;\
+	cd ..

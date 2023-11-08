@@ -15,10 +15,12 @@ export function Card({ cardData, index, stackable }: CardProps): JSX.Element {
   const style = buildStyle(index, stackable);
 
   return (
-    <div className="card" style={style}>
-      <p className="corner-card-number">{cardData.number}</p>
+    <article className="card" style={style}>
+      <p role="presentation" className="corner-card-number">
+        {cardData.number}
+      </p>
       <p className="main-card-number">{cardData.number}</p>
-    </div>
+    </article>
   );
 }
 

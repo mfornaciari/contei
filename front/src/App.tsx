@@ -1,6 +1,6 @@
-import type { CardData } from "./Card";
+import type { CardData } from "./Card/Card";
 import { useEffect, useState } from "react";
-import { Card } from "./Card";
+import { Card } from "./Card/Card";
 import "./App.css";
 
 type CurrentPlayer = {
