@@ -1,14 +1,5 @@
-import { build } from './app'
+import { Elysia } from "elysia";
 
-build()
-  .then(app => {
-    app.listen({ host: '0.0.0.0', port: 3001 }, (error, _address) => {
-      if (error != null) {
-        app.log.error(error)
-        process.exit(1)
-      }
-    })
-  })
-  .catch(error => {
-    console.log(error)
-  })
+const app = new Elysia().get("/", () => "Hello Elysia").listen(3001);
+
+console.log(`Elysia is running at ${app.server?.hostname}:${app.server?.port}`);

@@ -5,12 +5,12 @@ back.shell:
 
 back.dev:
 	cd back ;\
-	nix develop -c bash -c 'npm run dev' ;\
+	nix develop -c bash -c 'bun dev' ;\
 	cd ..
 
 back.test:
 	cd back ;\
-	nix develop -c bash -c 'npm run test' ;\
+	nix develop -c bash -c 'bun test' ;\
 	cd ..
 
 front.shell:
