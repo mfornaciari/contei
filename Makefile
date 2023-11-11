@@ -1,29 +1,29 @@
 back.shell:
 	cd back ;\
-	nix develop ;\
+	nix develop .#back;\
 	cd ..
 
 back.dev:
 	cd back ;\
-	nix develop -c bash -c 'bun dev' ;\
+	nix develop .#back -c bash -c 'bun dev' ;\
 	cd ..
 
 back.test:
 	cd back ;\
-	nix develop -c bash -c 'bun test' ;\
+	nix develop .#back -c bash -c 'bun test' ;\
 	cd ..
 
 front.shell:
 	cd front ;\
-	nix develop ;\
+	nix develop .#front;\
 	cd ..
 
 front.dev:
 	cd front ;\
-	nix develop -c bash -c 'npm run dev' ;\
+	nix develop .#front -c bash -c 'npm run dev' ;\
 	cd ..
 
 front.test:
 	cd front ;\
-	nix develop -c bash -c 'npm run test' ;\
+	nix develop .#front -c bash -c 'npm run test' ;\
 	cd ..

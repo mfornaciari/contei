@@ -9,7 +9,8 @@
       system:
         let pkgs = nixpkgs.legacyPackages.${system}; in
           {
-            devShells.default = import ./shell.nix { inherit pkgs; };
+            devShells.back = import ./back/shell.nix { inherit pkgs; };
+            devShells.front = import ./front/shell.nix { inherit pkgs; };
           }
     );
 }
