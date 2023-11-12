@@ -8,7 +8,7 @@ const app = new Elysia()
     open(ws) {
       const playerId = ws.data.headers["sec-websocket-protocol"];
       if (playerId == null) {
-        console.log("No user ID received");
+        ws.send("No player ID received. Closing connection");
         ws.close();
         return;
       }
@@ -27,9 +27,6 @@ const app = new Elysia()
         const serializedMatch = serializeMatchForPlayer(player.id, match);
         app.server?.publish(player.id, serializedMatch);
       }
-    },
-    close(ws) {
-      ws.send("Closing connection");
     },
   })
   .listen(3001);
