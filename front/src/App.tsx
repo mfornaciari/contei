@@ -6,12 +6,12 @@ import "./App.css";
 type CurrentPlayer = {
   cards: CardData[];
   currentPlayer: boolean;
-  matchId: number;
+  number: number;
 };
 type OtherPlayer = {
   currentPlayer: boolean;
+  number: number;
   numberOfCards: number;
-  matchId: number;
 };
 type Match = {
   player: CurrentPlayer | null;
@@ -54,12 +54,12 @@ export function App() {
     );
 
   const otherPlayersList = otherPlayers.map(otherPlayer => (
-    <li key={`${otherPlayer.matchId}`}>{otherPlayer.numberOfCards}</li>
+    <li key={`${otherPlayer.number}`}>{otherPlayer.numberOfCards}</li>
   ));
 
   const playerCards = player.cards.map((cardData, index) => {
     return (
-      <li key={`${player.matchId}-${index}`} className="player-card-li">
+      <li key={`${player.number}-${index}`} className="player-card-li">
         <Card cardData={cardData} index={index} stackable={true} />
       </li>
     );
