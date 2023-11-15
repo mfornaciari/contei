@@ -1,9 +1,9 @@
-import { describe, expect, test } from "bun:test";
+import { describe, expect, it } from "bun:test";
 import { addPlayer, serializeOtherPlayer, serializePlayer } from "./player";
 import { type Match } from "./match";
 
 describe("addPlayer", () => {
-  test("adds player set as current player to match when match has no other players", () => {
+  it("adds player set as current player to match when match has no other players", () => {
     const cards = [
       { number: 1 },
       { number: 2 },
@@ -34,7 +34,7 @@ describe("addPlayer", () => {
     ]);
   });
 
-  test("adds player not set as current player to match when match has other players", () => {
+  it("adds player not set as current player to match when match has other players", () => {
     const cards = [
       { number: 1 },
       { number: 2 },
@@ -75,7 +75,7 @@ describe("addPlayer", () => {
 });
 
 describe("serializePlayer", () => {
-  test("returns object with player's number, cards and whether they are the current player", () => {
+  it("returns object with player's number, cards and whether they are the current player", () => {
     const cards = [
       { number: 1 },
       { number: 2 },
@@ -103,7 +103,7 @@ describe("serializePlayer", () => {
 });
 
 describe("serializeOtherPlayer", () => {
-  test("returns object with player's number, number of cards and whether they are the current player", () => {
+  it("returns object with player's number, number of cards and whether they are the current player", () => {
     const cards = [
       { number: 1 },
       { number: 2 },
