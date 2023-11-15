@@ -1,9 +1,9 @@
 {
   "name": "contei-back",
-  "module": "index.ts",
+  "module": "main.ts",
   "type": "module",
   "scripts": {
-    "dev": "bun run --watch src/index.ts",
+    "dev": "bun run --watch src/main.ts",
     "test": "bun test"
   },
   "devDependencies": {

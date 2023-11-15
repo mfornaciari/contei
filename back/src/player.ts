@@ -23,7 +23,7 @@ export type SerializedOtherPlayer = {
 export function addPlayer(playerId: string, match: Match): Player {
   const newPlayer: Player = {
     id: playerId,
-    number: match.players.length,
+    number: match.players.length + 1,
     cards: match.cards.splice(0, 7),
     currentPlayer: match.players.length === 0,
   };
