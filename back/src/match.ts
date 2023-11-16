@@ -32,7 +32,7 @@ export function serializeMatchForPlayer(playerId: string, { players, openCard }:
       }
       return result;
     },
-    { player: null, otherPlayers: [] },
+    { player: null, otherPlayers: [] }
   );
 
   return JSON.stringify({

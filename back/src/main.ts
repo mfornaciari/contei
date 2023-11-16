@@ -1,9 +1,9 @@
 import { Elysia } from "elysia";
-import { type Match, match, serializeMatchForPlayer } from "./match";
+import { match, serializeMatchForPlayer } from "./match";
 import { addPlayer } from "./player";
 
 const app = new Elysia()
-  .state("match", match as Match)
+  .state("match", match)
   .ws("/", {
     open(ws) {
       const playerId = ws.data.headers["sec-websocket-protocol"];
