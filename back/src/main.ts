@@ -2,7 +2,9 @@ import { Elysia } from "elysia";
 import { match, serializeMatchForPlayer } from "./match";
 import { addPlayer } from "./player";
 
-const app = new Elysia()
+const port = Number(Bun.env.PORT);
+
+export const app = new Elysia()
   .state("match", match)
   .ws("/", {
     open(ws) {
@@ -29,6 +31,6 @@ const app = new Elysia()
       }
     },
   })
-  .listen(3001);
+  .listen(port);
 
 console.log(`Running at ${app.server?.hostname}:${app.server?.port}`);
