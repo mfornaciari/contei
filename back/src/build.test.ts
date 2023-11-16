@@ -1,27 +1,19 @@
-import { afterAll, beforeAll, describe, expect, it } from "bun:test";
-import { app } from "./main";
-import { type Server } from "bun";
+import { describe, expect, it } from "bun:test";
+import { build } from "./build";
 
 describe("app", () => {
-  let server: Server | null;
-
-  beforeAll(() => {
-    server = app.server;
-  });
-
-  afterAll(async () => {
-    await app.stop();
-  });
-
   it("does not allow connection if no player ID is received", async () => {
+    const app = build();
+    const server = app.server;
     if (server != null) {
       const client = new WebSocket(`ws://${server.hostname}:${server.port}`);
       let resolveHandler: (value: string) => void;
       const message = new Promise<string>(resolve => {
         resolveHandler = resolve;
       });
-      client.addEventListener("message", event => {
+      client.addEventListener("message", async event => {
         resolveHandler(event.data.toString());
+        await app.stop();
       });
 
       expect(await message).toEqual("No player ID received. Closing connection");
@@ -30,6 +22,8 @@ describe("app", () => {
   });
 
   it("adds new player if player ID is received", async () => {
+    const app = build();
+    const server = app.server;
     const playerId = crypto.randomUUID();
     if (server != null) {
       const client = new WebSocket(`ws://${server.hostname}:${server.port}`, {
@@ -39,9 +33,10 @@ describe("app", () => {
       const message = new Promise<string>(resolve => {
         resolveHandler = resolve;
       });
-      client.addEventListener("message", event => {
+      client.addEventListener("message", async event => {
         resolveHandler(event.data.toString());
         client.close();
+        await app.stop();
       });
 
       const result = JSON.parse(await message);
