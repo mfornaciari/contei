@@ -1,4 +1,5 @@
 import { type CardData, Card } from "../Card/Card";
+import "./PlayerCurrent.css";
 
 export type PlayerCurrentData = {
   cards: CardData[];

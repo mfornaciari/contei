@@ -157,12 +157,3 @@ main {
   display: flex;
   flex-direction: row;
 }
-
-.player-cards {
-  list-style: none;
-  display: grid;
-}
-
-.player-card-li {
-  grid-row: 1;
-}

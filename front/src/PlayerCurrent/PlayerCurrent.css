@@ -1,0 +1,8 @@
+.player-cards {
+  list-style: none;
+  display: grid;
+}
+
+.player-card-li {
+  grid-row: 1;
+}
