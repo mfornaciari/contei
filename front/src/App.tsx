@@ -1,20 +1,15 @@
-import type { CardData } from "./Card/Card";
 import { useEffect, useState } from "react";
-import { Card } from "./Card/Card";
+import { type CardData, Card } from "./Card/Card";
+import { type PlayerCurrentData, PlayerCurrent } from "./PlayerCurrent/PlayerCurrent";
 import "./App.css";
 
-type CurrentPlayer = {
-  cards: CardData[];
-  currentPlayer: boolean;
-  number: number;
-};
 type OtherPlayer = {
   currentPlayer: boolean;
   number: number;
   numberOfCards: number;
 };
 type Match = {
-  player: CurrentPlayer | null;
+  player: PlayerCurrentData | null;
   openCard: CardData | null;
   otherPlayers: OtherPlayer[];
 };
@@ -57,25 +52,13 @@ export function App() {
     <li key={`${otherPlayer.number}`}>{otherPlayer.numberOfCards}</li>
   ));
 
-  const playerCards = player.cards.map((cardData, index) => {
-    return (
-      <li key={`${player.number}-${index}`} className="player-card-li">
-        <Card cardData={cardData} index={index} stackable={true} />
-      </li>
-    );
-  });
-
-  const playerCardListStyle = { gridTemplateColumns: `repeat(${player.cards.length}, 2.5rem)` };
-
   return (
     <main>
       <ol className="other-players">{otherPlayersList}</ol>
 
       <Card cardData={openCard} index={0} stackable={false} />
 
-      <ol className="player-cards" style={playerCardListStyle}>
-        {playerCards}
-      </ol>
+      <PlayerCurrent player={player} />
     </main>
   );
 }
