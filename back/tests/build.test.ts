@@ -104,4 +104,59 @@ describe("build", () => {
       expect(result2.openCard).toBeDefined();
     }
   });
+
+  it("does not add new player if player ID is the same as an existing player's", async () => {
+    const app = build(port);
+    const server = app.server;
+
+    if (server != null) {
+      // First player
+      const player1Id = crypto.randomUUID();
+      const client1 = new WebSocket(`ws://${server.hostname}:${server.port}`, {
+        headers: { "sec-websocket-protocol": player1Id },
+      });
+      let client1MessageCounter = 0;
+      let resolveHandler1: (value: string) => void;
+      const message1 = new Promise<string>(resolve => {
+        resolveHandler1 = resolve;
+      });
+      client1.addEventListener("message", event => {
+        client1MessageCounter += 1;
+        if (client1MessageCounter === 2) resolveHandler1(event.data.toString());
+      });
+
+      // Second player
+      const player2Id = crypto.randomUUID();
+      const client2 = new WebSocket(`ws://${server.hostname}:${server.port}`, {
+        headers: { "sec-websocket-protocol": player2Id },
+      });
+      let client2MessageCounter = 0;
+      client2.addEventListener("message", event => {
+        client2MessageCounter += 1;
+      });
+
+      // Third player; same ID as first
+      const client3 = new WebSocket(`ws://${server.hostname}:${server.port}`, {
+        headers: { "sec-websocket-protocol": player1Id },
+      });
+      let resolveHandler3: (value: string) => void;
+      const message3 = new Promise<string>(resolve => {
+        resolveHandler3 = resolve;
+      });
+      client3.addEventListener("message", async event => {
+        resolveHandler3(event.data.toString());
+        client1.close();
+        client2.close();
+        client3.close();
+        await app.stop();
+      });
+
+      const client1Message = JSON.parse(await message1);
+      const client3Message = JSON.parse(await message3);
+
+      expect(client1MessageCounter).toEqual(2);
+      expect(client2MessageCounter).toEqual(1);
+      expect(client3Message).toEqual(client1Message);
+    }
+  });
 });
