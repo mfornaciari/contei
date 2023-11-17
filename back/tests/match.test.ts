@@ -1,6 +1,17 @@
 import { describe, expect, it } from "bun:test";
-import { serializeMatchForPlayer } from "./match";
-import { serializeOtherPlayer, serializePlayer } from "./player";
+import { buildMatch, serializeMatchForPlayer } from "../src/match";
+import { serializeOtherPlayer, serializePlayer } from "../src/player";
+
+describe("buildMatch", () => {
+  it("returns a match with 53 cards, 1 open card and no players", () => {
+    const match = buildMatch();
+
+    expect(match.cards).toBeArrayOfSize(53);
+    expect(match.cards.map(card => card.number)).toBeArrayOfSize(53);
+    expect(match.openCard).toHaveProperty("number");
+    expect(match.players).toBeArrayOfSize(0);
+  });
+});
 
 describe("serializeMatchForPlayer", () => {
   it("returns serialized player, serialized other players and currently open card for a given player id", () => {
@@ -35,7 +46,7 @@ describe("serializeMatchForPlayer", () => {
         player: serializePlayer(player1),
         otherPlayers: [serializeOtherPlayer(player2), serializeOtherPlayer(player3)],
         openCard: match.openCard,
-      }),
+      })
     );
   });
 });

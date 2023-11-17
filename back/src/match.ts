@@ -1,4 +1,4 @@
-import { type Card, cards } from "./cards";
+import { type Card, buildCards } from "./cards";
 import {
   type Player,
   type SerializedPlayer,
@@ -13,14 +13,17 @@ export type Match = {
   openCard: Card;
 };
 
-const shuffledCards = cards.sort(() => Math.random() - 0.5);
-const openCard = shuffledCards.splice(0, 1)[0];
+export function buildMatch(): Match {
+  const cards = buildCards();
+  const shuffledCards = cards.sort(() => Math.random() - 0.5);
+  const openCard = shuffledCards.splice(0, 1)[0];
 
-export const match: Match = {
-  players: [],
-  cards: shuffledCards,
-  openCard,
-};
+  return {
+    players: [],
+    cards: shuffledCards,
+    openCard,
+  };
+}
 
 export function serializeMatchForPlayer(playerId: string, { players, openCard }: Match): string {
   const { player, otherPlayers } = players.reduce(

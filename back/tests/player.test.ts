@@ -1,6 +1,6 @@
 import { describe, expect, it } from "bun:test";
-import { addPlayer, serializeOtherPlayer, serializePlayer } from "./player";
-import { type Match } from "./match";
+import { addPlayer, serializeOtherPlayer, serializePlayer } from "../src/player";
+import { type Match } from "../src/match";
 
 describe("addPlayer", () => {
   it("adds player set as current player to match when match has no other players", () => {

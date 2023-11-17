@@ -28,6 +28,7 @@ export function addPlayer(playerId: string, match: Match): Player {
     currentPlayer: match.players.length === 0,
   };
   match.players.push(newPlayer);
+
   return newPlayer;
 }
 

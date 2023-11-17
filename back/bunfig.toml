@@ -1,3 +1,4 @@
 [test]
 coverage = true
-preload = ["./src/testSetup.ts"]
+preload = ["./tests/setup.ts"]
+root = "./tests"
