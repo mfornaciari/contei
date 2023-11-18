@@ -1,17 +1,13 @@
 import { useEffect, useState } from "react";
 import { type CardData, Card } from "./Card/Card";
 import { type PlayerCurrentData, PlayerCurrent } from "./PlayerCurrent/PlayerCurrent";
+import { type PlayerOtherData, PlayersOther } from "./PlayersOther/PlayersOther";
 import "./App.css";
 
-type OtherPlayer = {
-  currentPlayer: boolean;
-  number: number;
-  numberOfCards: number;
-};
 type Match = {
   player: PlayerCurrentData | null;
   openCard: CardData | null;
-  otherPlayers: OtherPlayer[];
+  otherPlayers: PlayerOtherData[];
 };
 
 export function App() {
@@ -48,13 +44,9 @@ export function App() {
       </main>
     );
 
-  const otherPlayersList = otherPlayers.map(otherPlayer => (
-    <li key={`${otherPlayer.number}`}>{otherPlayer.numberOfCards}</li>
-  ));
-
   return (
     <main>
-      <ol className="other-players">{otherPlayersList}</ol>
+      <PlayersOther players={otherPlayers} />
 
       <Card cardData={openCard} index={0} stackable={false} />
 

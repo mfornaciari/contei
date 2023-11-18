@@ -151,9 +151,3 @@ main {
 #root {
   height: 100%;
 }
-
-.other-players {
-  list-style: none;
-  display: flex;
-  flex-direction: row;
-}
