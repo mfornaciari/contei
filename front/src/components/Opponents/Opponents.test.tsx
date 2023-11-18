@@ -1,7 +1,7 @@
 import { render, screen, within } from "@testing-library/react";
-import { PlayersOther } from "./PlayersOther";
+import { Opponents } from "./Opponents";
 
-describe("PlayersOther", () => {
+describe("Opponents", () => {
   it("renders correct number of players in an ordered list", () => {
     const players = [
       {
@@ -16,7 +16,7 @@ describe("PlayersOther", () => {
       },
     ];
 
-    render(<PlayersOther players={players} />);
+    render(<Opponents players={players} />);
 
     const list = screen.getByRole("list");
     const listItems = within(list).getAllByRole("listitem");

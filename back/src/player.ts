@@ -14,7 +14,7 @@ export type SerializedPlayer = {
   number: number;
 };
 
-export type SerializedOtherPlayer = {
+export type SerializedOpponent = {
   currentPlayer: boolean;
   number: number;
   numberOfCards: number;
@@ -40,7 +40,7 @@ export function serializePlayer({ cards, currentPlayer, number }: Player): Seria
   };
 }
 
-export function serializeOtherPlayer({ cards, currentPlayer, number }: Player): SerializedOtherPlayer {
+export function serializeOpponent({ cards, currentPlayer, number }: Player): SerializedOpponent {
   return {
     currentPlayer,
     number,

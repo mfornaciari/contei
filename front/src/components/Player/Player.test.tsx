@@ -1,9 +1,9 @@
 import { render, screen, within } from "@testing-library/react";
-import { type PlayerCurrentData, PlayerCurrent } from "./PlayerCurrent";
+import { type PlayerData, Player } from "./Player";
 
-describe("PlayerCurrent", () => {
+describe("Player", () => {
   it("renders correct number of stackable cards in an ordered list", () => {
-    const player: PlayerCurrentData = {
+    const player: PlayerData = {
       cards: [
         { color: "blue", number: 1 },
         { color: "blue", number: 2 },
@@ -12,7 +12,7 @@ describe("PlayerCurrent", () => {
       number: 1,
     };
 
-    render(<PlayerCurrent player={player} />);
+    render(<Player player={player} />);
 
     const cardList = screen.getByRole("list");
     expect(cardList).toHaveStyle(`gridTemplateColumns: repeat(${player.cards.length}, 2.5rem)`);

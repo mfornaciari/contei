@@ -1,23 +1,24 @@
 import { describe, expect, it } from "bun:test";
-import { addPlayer, serializeOtherPlayer, serializePlayer } from "../src/player";
+import { type Card } from "../src/cards";
 import { type Match } from "../src/match";
+import { addPlayer, serializeOpponent, serializePlayer } from "../src/player";
 
 describe("addPlayer", () => {
   it("adds player set as current player to match when match has no other players", () => {
-    const cards = [
-      { number: 1 },
-      { number: 2 },
-      { number: 3 },
-      { number: 4 },
-      { number: 5 },
-      { number: 6 },
-      { number: 7 },
+    const cards: Card[] = [
+      { color: "blue", number: 1 },
+      { color: "blue", number: 2 },
+      { color: "blue", number: 3 },
+      { color: "blue", number: 4 },
+      { color: "blue", number: 5 },
+      { color: "blue", number: 6 },
+      { color: "blue", number: 7 },
     ];
     const expectedCards = structuredClone(cards);
     const match: Match = {
       players: [],
       cards,
-      openCard: { number: 1 },
+      openCard: { color: "blue", number: 1 },
     };
     const playerId = "id";
 
@@ -35,14 +36,14 @@ describe("addPlayer", () => {
   });
 
   it("adds player not set as current player to match when match has other players", () => {
-    const cards = [
-      { number: 1 },
-      { number: 2 },
-      { number: 3 },
-      { number: 4 },
-      { number: 5 },
-      { number: 6 },
-      { number: 7 },
+    const cards: Card[] = [
+      { color: "blue", number: 1 },
+      { color: "blue", number: 2 },
+      { color: "blue", number: 3 },
+      { color: "blue", number: 4 },
+      { color: "blue", number: 5 },
+      { color: "blue", number: 6 },
+      { color: "blue", number: 7 },
     ];
     const existingPlayerCards = structuredClone(cards);
     const existingPlayer = {
@@ -55,7 +56,7 @@ describe("addPlayer", () => {
     const match: Match = {
       players: [existingPlayer],
       cards,
-      openCard: { number: 1 },
+      openCard: { color: "blue", number: 1 },
     };
     const playerId = "newId";
 
@@ -76,14 +77,14 @@ describe("addPlayer", () => {
 
 describe("serializePlayer", () => {
   it("returns object with player's number, cards and whether they are the current player", () => {
-    const cards = [
-      { number: 1 },
-      { number: 2 },
-      { number: 3 },
-      { number: 4 },
-      { number: 5 },
-      { number: 6 },
-      { number: 7 },
+    const cards: Card[] = [
+      { color: "blue", number: 1 },
+      { color: "blue", number: 2 },
+      { color: "blue", number: 3 },
+      { color: "blue", number: 4 },
+      { color: "blue", number: 5 },
+      { color: "blue", number: 6 },
+      { color: "blue", number: 7 },
     ];
     const player = {
       id: "id",
@@ -102,16 +103,16 @@ describe("serializePlayer", () => {
   });
 });
 
-describe("serializeOtherPlayer", () => {
+describe("serializeOpponent", () => {
   it("returns object with player's number, number of cards and whether they are the current player", () => {
-    const cards = [
-      { number: 1 },
-      { number: 2 },
-      { number: 3 },
-      { number: 4 },
-      { number: 5 },
-      { number: 6 },
-      { number: 7 },
+    const cards: Card[] = [
+      { color: "blue", number: 1 },
+      { color: "blue", number: 2 },
+      { color: "blue", number: 3 },
+      { color: "blue", number: 4 },
+      { color: "blue", number: 5 },
+      { color: "blue", number: 6 },
+      { color: "blue", number: 7 },
     ];
     const player = {
       id: "id",
@@ -120,7 +121,7 @@ describe("serializeOtherPlayer", () => {
       currentPlayer: false,
     };
 
-    const serializedOtherPlayer = serializeOtherPlayer(player);
+    const serializedOtherPlayer = serializeOpponent(player);
 
     expect(serializedOtherPlayer).toEqual({
       currentPlayer: player.currentPlayer,

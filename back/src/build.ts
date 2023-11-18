@@ -27,7 +27,7 @@ export function build(port: number): Elysia {
         ws.subscribe(playerId);
         for (const player of match.players) {
           const serializedMatch = serializeMatchForPlayer(player.id, match);
-          app.server?.publish(player.id, serializedMatch);
+          app.server?.publish(player.id, JSON.stringify(serializedMatch));
         }
       },
     })

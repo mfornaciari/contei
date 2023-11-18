@@ -1,17 +1,17 @@
 import { type CardData, Card } from "../Card/Card";
-import "./PlayerCurrent.css";
+import "./Player.css";
 
-export type PlayerCurrentData = {
+export type PlayerData = {
   cards: CardData[];
   currentPlayer: boolean;
   number: number;
 };
 
-type PlayerCurrentProps = {
-  player: PlayerCurrentData;
+type PlayerProps = {
+  player: PlayerData;
 };
 
-export function PlayerCurrent({ player }: PlayerCurrentProps): JSX.Element {
+export function Player({ player }: PlayerProps): JSX.Element {
   const cards = player.cards.map((cardData, index) => {
     return (
       <li key={`${player.number}-${index}`} className="player-card-li">

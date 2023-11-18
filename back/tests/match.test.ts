@@ -1,6 +1,6 @@
 import { describe, expect, it } from "bun:test";
-import { buildMatch, serializeMatchForPlayer } from "../src/match";
-import { serializeOtherPlayer, serializePlayer } from "../src/player";
+import { type Match, buildMatch, serializeMatchForPlayer } from "../src/match";
+import { type Player, serializeOpponent, serializePlayer } from "../src/player";
 
 describe("buildMatch", () => {
   it("returns a match with 53 cards, 1 open card and no players", () => {
@@ -15,38 +15,48 @@ describe("buildMatch", () => {
 
 describe("serializeMatchForPlayer", () => {
   it("returns serialized player, serialized other players and currently open card for a given player id", () => {
-    const player1 = {
+    const player1: Player = {
       id: "id1",
       number: 1,
-      cards: [{ number: 3 }, { number: 4 }],
+      cards: [
+        { color: "blue", number: 3 },
+        { color: "blue", number: 4 },
+      ],
       currentPlayer: true,
     };
-    const player2 = {
+    const player2: Player = {
       id: "id2",
       number: 2,
-      cards: [{ number: 5 }, { number: 6 }],
+      cards: [
+        { color: "blue", number: 5 },
+        { color: "blue", number: 6 },
+      ],
       currentPlayer: false,
     };
-    const player3 = {
+    const player3: Player = {
       id: "id3",
       number: 3,
-      cards: [{ number: 7 }, { number: 8 }],
+      cards: [
+        { color: "pink", number: 7 },
+        { color: "purple", number: 8 },
+      ],
       currentPlayer: false,
     };
-    const match = {
+    const match: Match = {
       players: [player1, player2, player3],
-      cards: [{ number: 1 }, { number: 2 }],
-      openCard: { number: 9 },
+      cards: [
+        { color: "pink", number: 1 },
+        { color: "blue", number: 2 },
+      ],
+      openCard: { color: "blue", number: 9 },
     };
 
     const serializedMatch = serializeMatchForPlayer(player1.id, match);
 
-    expect(serializedMatch).toEqual(
-      JSON.stringify({
-        player: serializePlayer(player1),
-        otherPlayers: [serializeOtherPlayer(player2), serializeOtherPlayer(player3)],
-        openCard: match.openCard,
-      })
-    );
+    expect(serializedMatch).toEqual({
+      player: serializePlayer(player1),
+      opponents: [serializeOpponent(player2), serializeOpponent(player3)],
+      openCard: match.openCard,
+    });
   });
 });

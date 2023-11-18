@@ -2,8 +2,8 @@ import { type Card, buildCards } from "./cards";
 import {
   type Player,
   type SerializedPlayer,
-  type SerializedOtherPlayer,
-  serializeOtherPlayer,
+  type SerializedOpponent,
+  serializeOpponent,
   serializePlayer,
 } from "./player";
 
@@ -11,6 +11,12 @@ export type Match = {
   players: Player[];
   cards: Card[];
   openCard: Card;
+};
+
+type SerializedMatch = {
+  openCard: Card;
+  player: SerializedPlayer;
+  opponents: SerializedOpponent[];
 };
 
 export function buildMatch(): Match {
@@ -25,22 +31,22 @@ export function buildMatch(): Match {
   };
 }
 
-export function serializeMatchForPlayer(playerId: string, { players, openCard }: Match): string {
-  const { player, otherPlayers } = players.reduce(
-    (result: { player: SerializedPlayer | null; otherPlayers: SerializedOtherPlayer[] }, player) => {
+export function serializeMatchForPlayer(playerId: string, { players, openCard }: Match): SerializedMatch {
+  const { player, opponents } = players.reduce(
+    (result: { player: SerializedPlayer; opponents: SerializedOpponent[] }, player) => {
       if (player.id === playerId) {
         result.player = serializePlayer(player);
       } else {
-        result.otherPlayers.push(serializeOtherPlayer(player));
+        result.opponents.push(serializeOpponent(player));
       }
       return result;
     },
-    { player: null, otherPlayers: [] }
+    { player: { cards: [], currentPlayer: false, number: 7 }, opponents: [] },
   );
 
-  return JSON.stringify({
-    player,
-    otherPlayers,
+  return {
     openCard,
-  });
+    opponents,
+    player,
+  };
 }

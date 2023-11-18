@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react";
 import { type CardData, Card } from "./components/Card/Card";
-import { type PlayerCurrentData, PlayerCurrent } from "./components/PlayerCurrent/PlayerCurrent";
-import { type PlayerOtherData, PlayersOther } from "./components/PlayersOther/PlayersOther";
+import { type PlayerData, Player } from "./components/Player/Player";
+import { type OpponentData, Opponents } from "./components/Opponents/Opponents";
 import "./App.css";
 
 type Match = {
-  player: PlayerCurrentData | null;
+  player: PlayerData | null;
   openCard: CardData | null;
-  otherPlayers: PlayerOtherData[];
+  opponents: OpponentData[];
 };
 
 export function App() {
   const [match, setMatch] = useState<Match>({
     player: null,
     openCard: null,
-    otherPlayers: [],
+    opponents: [],
   });
 
   useEffect(() => {
@@ -34,8 +34,8 @@ export function App() {
     };
   }, []);
 
-  const { player, openCard, otherPlayers } = match;
-  const started = player != null && openCard != null && match.otherPlayers.length >= 1;
+  const { player, openCard, opponents } = match;
+  const started = player != null && openCard != null && opponents.length >= 1;
 
   if (!started)
     return (
@@ -46,11 +46,11 @@ export function App() {
 
   return (
     <main>
-      <PlayersOther players={otherPlayers} />
+      <Opponents players={opponents} />
 
       <Card cardData={openCard} index={0} stackable={false} />
 
-      <PlayerCurrent player={player} />
+      <Player player={player} />
     </main>
   );
 }

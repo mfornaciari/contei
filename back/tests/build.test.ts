@@ -46,7 +46,7 @@ describe("build", () => {
       expect(result.player.cards).toBeArrayOfSize(7);
       expect(result.player.currentPlayer).toBeTrue();
       expect(result.player.number).toEqual(1);
-      expect(result.otherPlayers).toBeArrayOfSize(0);
+      expect(result.opponents).toBeArrayOfSize(0);
       expect(result.openCard).toBeDefined();
     }
   });
@@ -93,14 +93,14 @@ describe("build", () => {
       expect(result1.player.cards).toBeArrayOfSize(7);
       expect(result1.player.currentPlayer).toBeTrue();
       expect(result1.player.number).toEqual(1);
-      expect(result1.otherPlayers).toBeArrayOfSize(1);
+      expect(result1.opponents).toBeArrayOfSize(1);
       expect(result1.openCard).toBeDefined();
 
       const result2 = JSON.parse(await message2);
       expect(result2.player.cards).toBeArrayOfSize(7);
       expect(result2.player.currentPlayer).toBeFalse();
       expect(result2.player.number).toEqual(2);
-      expect(result2.otherPlayers).toBeArrayOfSize(1);
+      expect(result2.opponents).toBeArrayOfSize(1);
       expect(result2.openCard).toBeDefined();
     }
   });
