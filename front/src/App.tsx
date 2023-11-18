@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { type CardData, Card } from "./Card/Card";
-import { type PlayerCurrentData, PlayerCurrent } from "./PlayerCurrent/PlayerCurrent";
-import { type PlayerOtherData, PlayersOther } from "./PlayersOther/PlayersOther";
+import { type CardData, Card } from "./components/Card/Card";
+import { type PlayerCurrentData, PlayerCurrent } from "./components/PlayerCurrent/PlayerCurrent";
+import { type PlayerOtherData, PlayersOther } from "./components/PlayersOther/PlayersOther";
 import "./App.css";
 
 type Match = {

@@ -1,9 +1,12 @@
-import type { CSSProperties } from "react";
+import { type CSSProperties } from "react";
 import "./Card.css";
 
 export type CardData = {
+  color: CardColor;
   number: number;
 };
+
+type CardColor = "blue" | "pink" | "purple";
 
 type CardProps = {
   cardData: CardData;
@@ -11,16 +14,23 @@ type CardProps = {
   stackable: boolean;
 };
 
+const colorTranslations = {
+  blue: "azul",
+  pink: "rosa",
+  purple: "roxo",
+};
+
 export function Card({ cardData, index, stackable }: CardProps): JSX.Element {
+  const imagePath = new URL(`../../images/cards/${cardData.color}_${cardData.number}.png`, import.meta.url).href;
   const style = buildStyle(index, stackable);
 
   return (
-    <article className="card" style={style}>
-      <p role="presentation" className="corner-card-number">
-        {cardData.number}
-      </p>
-      <p className="main-card-number">{cardData.number}</p>
-    </article>
+    <img
+      src={imagePath}
+      alt={`${cardData.number} ${colorTranslations[cardData.color]}`}
+      className="card"
+      style={style}
+    />
   );
 }
 
