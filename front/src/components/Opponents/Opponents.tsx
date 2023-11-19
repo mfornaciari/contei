@@ -1,17 +1,16 @@
+import { type OpponentData, Opponent } from "../Opponent/Opponent";
 import "./Opponents.css";
 
-export type OpponentData = {
-  currentPlayer: boolean;
-  number: number;
-  numberOfCards: number;
-};
-
 type OpponentsProps = {
-  players: OpponentData[];
+  opponents: OpponentData[];
 };
 
-export function Opponents({ players }: OpponentsProps): JSX.Element {
-  const opponentList = players.map(player => <li key={player.number}>{player.numberOfCards}</li>);
+export function Opponents({ opponents }: OpponentsProps): JSX.Element {
+  const opponentList = opponents.map(opponent => (
+    <li key={opponent.number}>
+      <Opponent opponent={opponent} />
+    </li>
+  ));
 
   return <ol className="opponents">{opponentList}</ol>;
 }

@@ -46,7 +46,7 @@ export function App() {
 
   return (
     <main>
-      <Opponents players={opponents} />
+      <Opponents opponents={opponents} />
 
       <Card cardData={openCard} index={0} stackable={false} />
 

@@ -3,7 +3,7 @@ import { Opponents } from "./Opponents";
 
 describe("Opponents", () => {
   it("renders correct number of players in an ordered list", () => {
-    const players = [
+    const opponents = [
       {
         currentPlayer: true,
         number: 1,
@@ -16,12 +16,12 @@ describe("Opponents", () => {
       },
     ];
 
-    render(<Opponents players={players} />);
+    render(<Opponents opponents={opponents} />);
 
     const list = screen.getByRole("list");
     const listItems = within(list).getAllByRole("listitem");
 
-    expect(listItems[0]).toHaveTextContent(String(players[0].numberOfCards));
-    expect(listItems[1]).toHaveTextContent(String(players[1].numberOfCards));
+    expect(listItems[0]).toHaveTextContent(String(opponents[0].numberOfCards));
+    expect(listItems[1]).toHaveTextContent(String(opponents[1].numberOfCards));
   });
 });

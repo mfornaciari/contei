@@ -1,0 +1,18 @@
+.opponent {
+  border: 1px solid #000;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  gap: 1rem;
+  height: 9rem;
+  padding: 0.5rem;
+  font-weight: bold;
+  font-size: larger;
+}
+
+.opponent-item {
+  display: flex;
+  flex-direction: row;
+  gap: 3px;
+}
