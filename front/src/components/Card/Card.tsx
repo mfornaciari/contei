@@ -1,4 +1,3 @@
-import { type CSSProperties } from "react";
 import "./Card.css";
 
 export type CardData = {
@@ -18,28 +17,19 @@ const colorTranslations = {
   blue: "azul",
   pink: "rosa",
   purple: "roxo",
-};
+} as const;
 
 export function Card({ cardData, index, stackable }: CardProps): JSX.Element {
   const imagePath = new URL(`../../images/cards/${cardData.color}_${cardData.number}.png`, import.meta.url).href;
-  const style = buildStyle(index, stackable);
+  const className = stackable ? "card card-stackable" : "card";
+  const style = { zIndex: index };
 
   return (
     <img
       src={imagePath}
       alt={`${cardData.number} ${colorTranslations[cardData.color]}`}
-      className="card"
+      className={className}
       style={style}
     />
   );
-}
-
-function buildStyle(index: number, stackable: boolean): CSSProperties {
-  if (!stackable) return { zIndex: index };
-
-  return {
-    zIndex: index,
-    gridRowStart: 1,
-    gridColumnStart: 1,
-  };
 }

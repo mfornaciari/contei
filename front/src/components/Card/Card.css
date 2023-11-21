@@ -5,3 +5,13 @@
   width: 6.5rem;
   position: relative;
 }
+
+.card-stackable {
+  grid-row-start: 1;
+  grid-column-start: 1;
+}
+
+.card-stackable:hover {
+  outline: 0.2rem solid #03ac13;
+  transform: translateY(-1rem);
+}

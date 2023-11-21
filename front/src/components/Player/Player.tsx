@@ -19,10 +19,10 @@ export function Player({ player }: PlayerProps): JSX.Element {
       </li>
     );
   });
-  const playerCardListStyle = { gridTemplateColumns: `repeat(${player.cards.length}, 2.5rem)` };
+  const style = { gridTemplateColumns: `repeat(${player.cards.length}, 2.5rem)` };
 
   return (
-    <ol className="player-cards" style={playerCardListStyle}>
+    <ol className="player-cards" style={style}>
       {cards}
     </ol>
   );

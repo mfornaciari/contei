@@ -9,9 +9,8 @@ describe("Card", () => {
     const card: HTMLImageElement = screen.getByAltText("5 azul");
 
     expect(card.src).toContain(`/images/cards/${cardData.color}_${cardData.number}`);
-    expect(card).toHaveStyle("z-index: 1");
-    expect(card).not.toHaveStyle("gridRowStart: 1");
-    expect(card).not.toHaveStyle("gridColumnStart: 1");
+    expect(card).toHaveClass("card");
+    expect(card).not.toHaveClass("card-stackable");
   });
 
   it("renders with correct styles when stackable", () => {
@@ -20,8 +19,6 @@ describe("Card", () => {
     render(<Card cardData={cardData} index={1} stackable={true} />);
     const card: HTMLImageElement = screen.getByAltText("5 azul");
 
-    expect(card).toHaveStyle("z-index: 1");
-    expect(card).toHaveStyle("gridRowStart: 1");
-    expect(card).toHaveStyle("gridColumnStart: 1");
+    expect(card).toHaveClass("card card-stackable");
   });
 });

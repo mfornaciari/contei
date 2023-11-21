@@ -23,9 +23,7 @@ describe("Player", () => {
     const [item1, item2] = listItems;
     const card1 = within(item1).getByAltText("1 azul");
     const card2 = within(item2).getByAltText("2 azul");
-    expect(card1).toHaveStyle("gridRowStart: 1");
-    expect(card1).toHaveStyle("gridColumnStart: 1");
-    expect(card2).toHaveStyle("gridRowStart: 1");
-    expect(card2).toHaveStyle("gridColumnStart: 1");
+    expect(card1).toHaveClass("card card-stackable");
+    expect(card2).toHaveClass("card card-stackable");
   });
 });
