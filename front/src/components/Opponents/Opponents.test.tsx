@@ -17,8 +17,9 @@ describe("Opponents", () => {
     ];
 
     render(<Opponents opponents={opponents} />);
-
-    const list = screen.getByRole("list");
+    const opponentsSection = screen.getByRole("region");
+    expect(opponentsSection).toHaveAccessibleName("Oponentes");
+    const list = within(opponentsSection).getByRole("list");
     const listItems = within(list).getAllByRole("listitem");
 
     expect(listItems[0]).toHaveTextContent(String(opponents[0].numberOfCards));

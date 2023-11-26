@@ -22,8 +22,10 @@ export function Player({ player }: PlayerProps): JSX.Element {
   const style = { gridTemplateColumns: `repeat(${player.cards.length}, 2.5rem)` };
 
   return (
-    <ol className="player-cards" style={style}>
-      {cards}
-    </ol>
+    <section aria-label="Sua área de jogo">
+      <ol aria-label="Suas cartas" className="player-cards" style={style}>
+        {cards}
+      </ol>
+    </section>
   );
 }

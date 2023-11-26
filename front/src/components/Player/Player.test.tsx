@@ -14,7 +14,10 @@ describe("Player", () => {
 
     render(<Player player={player} />);
 
-    const cardList = screen.getByRole("list");
+    const playerSection = screen.getByRole("region");
+    expect(playerSection).toHaveAccessibleName("Sua área de jogo");
+    const cardList = within(playerSection).getByRole("list");
+    expect(cardList).toHaveAccessibleName("Suas cartas");
     expect(cardList).toHaveStyle(`gridTemplateColumns: repeat(${player.cards.length}, 2.5rem)`);
 
     const listItems = within(cardList).getAllByRole("listitem");

@@ -148,6 +148,13 @@ main {
   height: 100%;
 }
 
+section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 #root {
   height: 100%;
 }

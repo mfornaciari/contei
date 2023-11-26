@@ -12,5 +12,9 @@ export function Opponents({ opponents }: OpponentsProps): JSX.Element {
     </li>
   ));
 
-  return <ol className="opponents">{opponentList}</ol>;
+  return (
+    <section aria-label="Oponentes">
+      <ol className="opponents">{opponentList}</ol>
+    </section>
+  );
 }
