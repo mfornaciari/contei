@@ -27,7 +27,7 @@ export function App() {
       sessionStorage.setItem("userId", newId);
       userId = newId;
     }
-    const newSocket = new WebSocket("ws://localhost:3001", userId);
+    const newSocket = new WebSocket(`${import.meta.env.VITE_SERVER_URL}:${import.meta.env.VITE_SERVER_PORT}`, userId);
     newSocket.addEventListener("message", event => {
       setMatch(JSON.parse(event.data));
     });
