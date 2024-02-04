@@ -1,24 +1,20 @@
 import { useEffect, useState } from "react";
-import { type CardData, Card } from "./components/Card/Card";
-import { type OpponentData } from "./components/Opponent/Opponent";
+import { Card } from "./components/Card/Card";
 import { Opponents } from "./components/Opponents/Opponents";
 import { type PlayData, Play } from "./components/Play/Play";
-import { type PlayerData, Player } from "./components/Player/Player";
+import { Player } from "./components/Player/Player";
+import { useMatch } from "./hooks/useMatch";
 import "./App.css";
 
-type Match = {
-  player: PlayerData | null;
-  openCard: CardData | null;
-  opponents: OpponentData[];
+const initialMatch = {
+  player: null,
+  openCard: null,
+  opponents: [],
 };
 
 export function App() {
   const [socket, setSocket] = useState<WebSocket | null>(null);
-  const [match, setMatch] = useState<Match>({
-    player: null,
-    openCard: null,
-    opponents: [],
-  });
+  const [match, setMatch] = useMatch(initialMatch);
 
   useEffect(() => {
     let userId = sessionStorage.getItem("userId");

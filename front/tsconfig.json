@@ -18,13 +18,8 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": true,
-    "alwaysStrict": true,
-
-    "forceConsistentCasingInFileNames": true,
-    "allowJs": false
+    "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "./jest-setup.ts"],
+  "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

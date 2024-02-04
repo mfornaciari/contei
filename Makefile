@@ -20,10 +20,10 @@ front.shell:
 
 front.dev:
 	cd front ;\
-	nix develop .#front -c bash -c 'npm run dev' ;\
+	nix develop .#front -c bash -c 'bun run dev' ;\
 	cd ..
 
 front.test:
 	cd front ;\
-	nix develop .#front -c bash -c 'npm run test' ;\
+	nix develop .#front -c bash -c 'bun run test' ;\
 	cd ..
