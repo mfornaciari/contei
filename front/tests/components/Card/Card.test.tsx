@@ -1,5 +1,6 @@
+import { describe, expect, it } from "bun:test";
 import { render, screen } from "@testing-library/react";
-import { type CardData, Card } from "./Card";
+import { type CardData, Card } from "../../../src/components/Card/Card";
 
 describe("Card", () => {
   it("renders with correct styles when not stackable", () => {

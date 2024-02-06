@@ -1,5 +1,6 @@
+import { describe, expect, it } from "bun:test";
 import { render, screen, within } from "@testing-library/react";
-import { Opponents } from "./Opponents";
+import { Opponents } from "../../../src/components/Opponents/Opponents";
 
 describe("Opponents", () => {
   it("renders correct number of players in an ordered list", () => {

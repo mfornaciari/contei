@@ -1,5 +1,6 @@
+import { describe, expect, it } from "bun:test";
 import { render, screen } from "@testing-library/react";
-import { Opponent } from "./Opponent";
+import { Opponent } from "../../../src/components/Opponent/Opponent";
 
 describe("Opponent", () => {
   it("renders opponent data", () => {

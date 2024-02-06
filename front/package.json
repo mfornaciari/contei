@@ -1,5 +1,5 @@
 {
-  "name": "front",
+  "name": "contei-front",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -7,7 +7,7 @@
     "dev": " bunx --bun vite",
     "build": "bunx --bun vite build",
     "lint": "bunx --bun eslint ./src/*.ts --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
+    "preview": "bunx --bun vite preview",
     "test": "bun test"
   },
   "dependencies": {
@@ -17,12 +17,12 @@
   "devDependencies": {
     "@testing-library/react": "^14.1.0",
     "@testing-library/user-event": "^14.5.2",
+    "@types/bun": "^1.0.5",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
-    "bun-types": "latest",
     "eslint": "^8.55.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-react-hooks": "^4.6.0",

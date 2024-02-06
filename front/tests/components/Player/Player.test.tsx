@@ -1,5 +1,6 @@
+import { describe, expect, it } from "bun:test";
 import { render, screen, within } from "@testing-library/react";
-import { type PlayerData, Player } from "./Player";
+import { type PlayerData, Player } from "../../../src/components/Player/Player";
 
 describe("Player", () => {
   it("renders correct number of stackable cards in an ordered list", () => {
