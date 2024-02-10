@@ -1,10 +1,16 @@
-import { useEffect, useState } from "react";
-import { Card } from "./components/Card/Card";
+import { useEffect, useRef, useState } from "react";
+import { type CardData, Card } from "./components/Card/Card";
+import { type OpponentData } from "./components/Opponent/Opponent";
 import { Opponents } from "./components/Opponents/Opponents";
 import { type PlayData, Play } from "./components/Play/Play";
-import { Player } from "./components/Player/Player";
-import { useMatch } from "./hooks/useMatch";
+import { type PlayerData, Player } from "./components/Player/Player";
 import "./App.css";
+
+export type MatchData = {
+  player: PlayerData | null;
+  openCard: CardData | null;
+  opponents: OpponentData[];
+};
 
 const initialMatch = {
   player: null,
@@ -13,8 +19,8 @@ const initialMatch = {
 };
 
 export function App() {
-  const [socket, setSocket] = useState<WebSocket | null>(null);
-  const [match, setMatch] = useMatch(initialMatch);
+  const webSocket = useRef<WebSocket | null>(null);
+  const [match, setMatch] = useState<MatchData>(initialMatch);
 
   useEffect(() => {
     let userId = sessionStorage.getItem("userId");
@@ -23,18 +29,17 @@ export function App() {
       sessionStorage.setItem("userId", newId);
       userId = newId;
     }
-    const newSocket = new WebSocket(`${import.meta.env.VITE_SERVER_URL}:${import.meta.env.VITE_SERVER_PORT}`, userId);
-    newSocket.addEventListener("message", event => {
+    webSocket.current = new WebSocket(`${import.meta.env.VITE_SERVER_URL}:${import.meta.env.VITE_SERVER_PORT}`, userId);
+    webSocket.current.addEventListener("message", event => {
       setMatch(JSON.parse(event.data));
     });
-    setSocket(newSocket);
     return () => {
-      newSocket.close();
+      if (webSocket.current != null) webSocket.current.close();
     };
   }, []);
 
   const { player, openCard, opponents } = match;
-  const started = socket != null && player != null && openCard != null && opponents.length >= 1;
+  const started = webSocket.current != null && player != null && openCard != null && opponents.length >= 1;
 
   if (!started)
     return (
@@ -44,7 +49,7 @@ export function App() {
     );
 
   function send(payload: PlayData) {
-    if (socket != null) socket.send(JSON.stringify(payload));
+    if (webSocket.current != null) webSocket.current.send(JSON.stringify(payload));
   }
 
   return (
@@ -55,7 +60,7 @@ export function App() {
         <Card cardData={openCard} index={0} stackable={false} />
       </section>
 
-      <Play send={send} />
+      {player.currentPlayer && <Play send={send} />}
 
       <Player player={player} />
     </main>
