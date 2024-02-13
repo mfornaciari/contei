@@ -2,18 +2,24 @@ import Elysia, { t } from "elysia";
 import { buildMatch, serializeMatchForPlayer } from "./match";
 import { addPlayer } from "./player";
 
+const authCookieName = String(Bun.env.AUTH_COOKIE_NAME);
+
 export function build(port: number): Elysia {
   const app = new Elysia()
     .state("match", buildMatch())
-    .get("/auth", ({ cookie: { p }, request }) => {
-      if (p.value != null) return;
+    .get("/auth", ({ cookie, request, set }) => {
+      const authCookie = cookie[authCookieName];
+      if (authCookie.value != null) return;
+
+      const playerIpAddress = app.server?.requestIP(request)?.address;
+      if (playerIpAddress == null) {
+        set.status = 422;
+        return;
+      }
 
       const playerId = crypto.randomUUID();
-      const playerIpAddress = app.server?.requestIP(request)?.address;
-      if (playerIpAddress == null) return;
-
-      p.value = Buffer.from(`${playerId};${playerIpAddress}`, "binary").toString("base64");
-      p.httpOnly = true;
+      authCookie.value = Buffer.from(`${playerId};${playerIpAddress}`, "binary").toString("base64");
+      authCookie.httpOnly = true;
     })
     .get(
       "/contei",
@@ -24,7 +30,7 @@ export function build(port: number): Elysia {
         cookie: t.Cookie({
           p: t.String(),
         }),
-      }
+      },
     )
     .ws("/contei", {
       open(ws) {
