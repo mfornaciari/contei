@@ -4,7 +4,7 @@ import { type OpponentData } from "./components/Opponent/Opponent";
 import { Opponents } from "./components/Opponents/Opponents";
 import { type PlayData, Play } from "./components/Play/Play";
 import { type PlayerData, Player } from "./components/Player/Player";
-import "./App.css";
+import "./Contei.css";
 
 export type MatchData = {
   player: PlayerData | null;
@@ -18,18 +18,14 @@ const initialMatch = {
   opponents: [],
 };
 
-export function App() {
+export function Contei() {
   const webSocket = useRef<WebSocket | null>(null);
   const [match, setMatch] = useState<MatchData>(initialMatch);
 
   useEffect(() => {
-    let userId = sessionStorage.getItem("userId");
-    if (userId == null) {
-      const newId = crypto.randomUUID();
-      sessionStorage.setItem("userId", newId);
-      userId = newId;
-    }
-    webSocket.current = new WebSocket(`${import.meta.env.VITE_SERVER_URL}:${import.meta.env.VITE_SERVER_PORT}`, userId);
+    webSocket.current = new WebSocket(
+      `ws://${import.meta.env.VITE_SERVER_URL}:${import.meta.env.VITE_SERVER_PORT}/contei`
+    );
     webSocket.current.addEventListener("message", event => {
       setMatch(JSON.parse(event.data));
     });

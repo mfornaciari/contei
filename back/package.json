@@ -3,7 +3,7 @@
   "module": "main.ts",
   "type": "module",
   "scripts": {
-    "dev": "bun run --watch src/main.ts",
+    "dev": "bun run src/main.ts",
     "lint": "bunx --bun eslint ./src/*.ts"
   },
   "dependencies": {

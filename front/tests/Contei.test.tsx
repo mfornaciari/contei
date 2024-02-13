@@ -2,9 +2,9 @@ import { afterEach, describe, expect, it } from "bun:test";
 import { render, screen, within } from "@testing-library/react";
 import user from "@testing-library/user-event";
 import { type Server } from "bun";
-import { type MatchData, App } from "../src/App";
+import { type MatchData, Contei } from "../src/Contei";
 
-describe("App", () => {
+describe("Contei", () => {
   let server: Server | null = null;
 
   afterEach(() => {
@@ -26,7 +26,7 @@ describe("App", () => {
       opponents: [],
     };
     server = startServer(startMock);
-    render(<App />);
+    render(<Contei />);
 
     expect(screen.queryByText("Aguardando início da partida...")).not.toBeNull();
   });
@@ -67,7 +67,7 @@ describe("App", () => {
     };
 
     server = startServer(turn1Mock, turn2Mock);
-    render(<App />);
+    render(<Contei />);
 
     const playArea = await screen.findByRole("region", { name: "Sua jogada" });
     const passButton: HTMLButtonElement = within(playArea).getByRole("button");

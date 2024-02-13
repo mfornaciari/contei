@@ -14,7 +14,6 @@ describe("Card", () => {
     const card: HTMLImageElement = screen.getByAltText("5 azul");
 
     expect(card.src).toContain(`/images/cards/${cardData.color}_${cardData.number}`);
-    console.log(card.classList.value);
     expect(card.classList.contains("card")).toBe(true);
     expect(card.classList.contains("card-stackable")).toBe(false);
   });
