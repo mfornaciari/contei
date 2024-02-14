@@ -17,6 +17,7 @@ describe("serializeMatchForPlayer", () => {
   it("returns serialized player, serialized other players and currently open card for a given player id", () => {
     const player1: Player = {
       id: "id1",
+      ipAddress: "::ffff:127.0.0.1",
       number: 1,
       cards: [
         { color: "blue", number: 3 },
@@ -26,6 +27,7 @@ describe("serializeMatchForPlayer", () => {
     };
     const player2: Player = {
       id: "id2",
+      ipAddress: "::ffff:127.0.0.1",
       number: 2,
       cards: [
         { color: "blue", number: 5 },
@@ -35,6 +37,7 @@ describe("serializeMatchForPlayer", () => {
     };
     const player3: Player = {
       id: "id3",
+      ipAddress: "::ffff:127.0.0.1",
       number: 3,
       cards: [
         { color: "pink", number: 7 },

@@ -24,7 +24,7 @@ export function Contei() {
 
   useEffect(() => {
     webSocket.current = new WebSocket(
-      `ws://${import.meta.env.VITE_SERVER_URL}:${import.meta.env.VITE_SERVER_PORT}/contei`
+      `ws://${import.meta.env.VITE_SERVER_URL}:${import.meta.env.VITE_SERVER_PORT}/game`
     );
     webSocket.current.addEventListener("message", event => {
       setMatch(JSON.parse(event.data));

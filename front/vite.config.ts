@@ -10,7 +10,7 @@ export default ({ mode }) => {
     server: {
       proxy: {
         "/auth": `http://${env.VITE_SERVER_URL}:${env.VITE_SERVER_PORT}`,
-        "/contei": {
+        "/game": {
           target: `ws://${env.VITE_SERVER_URL}:${env.VITE_SERVER_PORT}`,
           ws: true,
         },

@@ -3,6 +3,7 @@ import { type Match } from "./match";
 
 export type Player = {
   id: string;
+  ipAddress: string;
   cards: Card[];
   currentPlayer: boolean;
   number: number;
@@ -20,9 +21,10 @@ export type SerializedOpponent = {
   numberOfCards: number;
 };
 
-export function addPlayer(playerId: string, match: Match): Player {
+export function addPlayer(playerId: string, ipAddress: string, match: Match): Player {
   const newPlayer: Player = {
     id: playerId,
+    ipAddress,
     number: match.players.length + 1,
     cards: match.cards.splice(0, 7),
     currentPlayer: match.players.length === 0,

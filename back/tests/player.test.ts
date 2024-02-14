@@ -1,7 +1,7 @@
 import { describe, expect, it } from "bun:test";
 import { type Card } from "../src/cards";
 import { type Match } from "../src/match";
-import { addPlayer, serializeOpponent, serializePlayer } from "../src/player";
+import { type Player, addPlayer, serializeOpponent, serializePlayer } from "../src/player";
 
 describe("addPlayer", () => {
   it("adds player set as current player to match when match has no other players", () => {
@@ -22,12 +22,13 @@ describe("addPlayer", () => {
     };
     const playerId = "id";
 
-    addPlayer(playerId, match);
+    addPlayer(playerId, "::ffff:127.0.0.1", match);
 
     expect(match.cards).toBeEmpty();
     expect(match.players).toEqual([
       {
         id: playerId,
+        ipAddress: "::ffff:127.0.0.1",
         number: 1,
         cards: expectedCards,
         currentPlayer: true,
@@ -46,8 +47,9 @@ describe("addPlayer", () => {
       { color: "blue", number: 7 },
     ];
     const existingPlayerCards = structuredClone(cards);
-    const existingPlayer = {
+    const existingPlayer: Player = {
       id: "id",
+      ipAddress: "::ffff:127.0.0.1",
       number: 1,
       cards: existingPlayerCards,
       currentPlayer: true,
@@ -60,13 +62,14 @@ describe("addPlayer", () => {
     };
     const playerId = "newId";
 
-    addPlayer(playerId, match);
+    addPlayer(playerId, "::ffff:127.0.0.1", match);
 
     expect(match.cards).toBeEmpty();
     expect(match.players).toEqual([
       existingPlayer,
       {
         id: playerId,
+        ipAddress: "::ffff:127.0.0.1",
         number: 2,
         cards: expectedCards,
         currentPlayer: false,
@@ -86,8 +89,9 @@ describe("serializePlayer", () => {
       { color: "blue", number: 6 },
       { color: "blue", number: 7 },
     ];
-    const player = {
+    const player: Player = {
       id: "id",
+      ipAddress: "::ffff:127.0.0.1",
       number: 1,
       cards,
       currentPlayer: false,
@@ -114,8 +118,9 @@ describe("serializeOpponent", () => {
       { color: "blue", number: 6 },
       { color: "blue", number: 7 },
     ];
-    const player = {
+    const player: Player = {
       id: "id",
+      ipAddress: "::ffff:127.0.0.1",
       number: 1,
       cards,
       currentPlayer: false,
