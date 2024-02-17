@@ -22,7 +22,7 @@ describe("addPlayer", () => {
     };
     const playerId = "id";
 
-    addPlayer(playerId, "::ffff:127.0.0.1", match);
+    addPlayer("ip", match);
 
     expect(match.cards).toBeEmpty();
     expect(match.players).toEqual([
@@ -49,7 +49,7 @@ describe("addPlayer", () => {
     const existingPlayerCards = structuredClone(cards);
     const existingPlayer: Player = {
       id: "id",
-      ipAddress: "::ffff:127.0.0.1",
+      ipAddress: "ip",
       number: 1,
       cards: existingPlayerCards,
       currentPlayer: true,
@@ -62,14 +62,14 @@ describe("addPlayer", () => {
     };
     const playerId = "newId";
 
-    addPlayer(playerId, "::ffff:127.0.0.1", match);
+    addPlayer("ip2", match);
 
     expect(match.cards).toBeEmpty();
     expect(match.players).toEqual([
       existingPlayer,
       {
         id: playerId,
-        ipAddress: "::ffff:127.0.0.1",
+        ipAddress: "ip2",
         number: 2,
         cards: expectedCards,
         currentPlayer: false,
@@ -91,7 +91,7 @@ describe("serializePlayer", () => {
     ];
     const player: Player = {
       id: "id",
-      ipAddress: "::ffff:127.0.0.1",
+      ipAddress: "ip",
       number: 1,
       cards,
       currentPlayer: false,
@@ -120,7 +120,7 @@ describe("serializeOpponent", () => {
     ];
     const player: Player = {
       id: "id",
-      ipAddress: "::ffff:127.0.0.1",
+      ipAddress: "ip",
       number: 1,
       cards,
       currentPlayer: false,

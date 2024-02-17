@@ -21,9 +21,9 @@ export type SerializedOpponent = {
   numberOfCards: number;
 };
 
-export function addPlayer(playerId: string, ipAddress: string, match: Match): Player {
+export function addPlayer(ipAddress: string, match: Match): Player {
   const newPlayer: Player = {
-    id: playerId,
+    id: crypto.randomUUID(),
     ipAddress,
     number: match.players.length + 1,
     cards: match.cards.splice(0, 7),
