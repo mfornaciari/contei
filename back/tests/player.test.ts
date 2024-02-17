@@ -1,4 +1,4 @@
-import { describe, expect, it } from "bun:test";
+import { describe, expect, it, spyOn } from "bun:test";
 import { type Card } from "../src/cards";
 import { type Match } from "../src/match";
 import { type Player, addPlayer, serializeOpponent, serializePlayer } from "../src/player";
@@ -20,15 +20,17 @@ describe("addPlayer", () => {
       cards,
       openCard: { color: "blue", number: 1 },
     };
-    const playerId = "id";
+    const playerId = "A-B-C-D-E";
+    const mockRandomUUID = spyOn(crypto, "randomUUID").mockReturnValue(playerId);
 
     addPlayer("ip", match);
 
+    mockRandomUUID.mockRestore();
     expect(match.cards).toBeEmpty();
     expect(match.players).toEqual([
       {
         id: playerId,
-        ipAddress: "::ffff:127.0.0.1",
+        ipAddress: "ip",
         number: 1,
         cards: expectedCards,
         currentPlayer: true,
@@ -60,10 +62,12 @@ describe("addPlayer", () => {
       cards,
       openCard: { color: "blue", number: 1 },
     };
-    const playerId = "newId";
+    const playerId = "A-B-C-D-E";
+    const mockRandomUUID = spyOn(crypto, "randomUUID").mockReturnValue(playerId);
 
     addPlayer("ip2", match);
 
+    mockRandomUUID.mockRestore();
     expect(match.cards).toBeEmpty();
     expect(match.players).toEqual([
       existingPlayer,
