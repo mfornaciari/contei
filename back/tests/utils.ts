@@ -3,6 +3,7 @@ export async function wsOpen(ws: WebSocket): Promise<void> {
     ws.onopen = resolve;
   });
 }
+
 export async function wsMessage(ws: WebSocket): Promise<string> {
   const event = await new Promise<MessageEvent<string | Buffer>>(resolve => {
     ws.onmessage = resolve;

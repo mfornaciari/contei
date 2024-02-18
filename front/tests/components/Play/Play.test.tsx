@@ -18,6 +18,6 @@ describe("Play", () => {
     await user.click(button);
 
     expect(send).toHaveBeenCalledTimes(1);
-    expect(send).toHaveBeenCalledWith({ kind: "pass" });
+    expect(send).toHaveBeenCalledWith({ type: "pass" });
   });
 });

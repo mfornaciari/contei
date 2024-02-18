@@ -1,5 +1,5 @@
 export type PlayData = {
-  kind: "pass";
+  type: "pass";
 };
 
 type PlayProps = {
@@ -8,7 +8,7 @@ type PlayProps = {
 
 export function Play({ send }: PlayProps) {
   const payload: PlayData = {
-    kind: "pass",
+    type: "pass",
   };
 
   function handleClick() {
